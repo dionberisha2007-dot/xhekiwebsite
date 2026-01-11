@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="View the Xheki Trans Logistics gallery. See our modern fleet, warehouses, and global logistics operations in action.">
+    <title>Gallery | Xheki Trans Logistics</title>
+    <link rel="icon" href="https://i.postimg.cc/gJsgpvQt/download.png" type="image/x-icon">
+    <style>
+        /* Shared variables from Index */
+        :root {
+            --primary: #0b1120;
+            --primary-light: #1e3a8a;
+            --accent: #3b82f6;
+            --white: #ffffff;
+            --max-width: 1280px;
+            --nav-height: 80px;
+            --transition: all 0.3s ease;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        /* PAGE TRANSITION STYLES */
+        body { 
+            font-family: -apple-system, sans-serif; 
+            color: #1e293b; 
+            background-color: var(--white); 
+            line-height: 1.6;
+            opacity: 0; /* Hidden by default for fade-in */
+            transition: opacity 0.5s ease-in-out;
+        }
+        body.loaded {
+            opacity: 1; /* Visible when loaded */
+        }
+
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+        img { max-width: 100%; display: block; }
+        .container { max-width: var(--max-width); margin: 0 auto; padding: 0 24px; }
+
+        /* HEADER */
+        header { position: fixed; width: 100%; top: 0; z-index: 1000; background-color: var(--primary); }
+        nav { display: flex; justify-content: space-between; align-items: center; height: var(--nav-height); }
+        .logo { font-size: 1.5rem; font-weight: 800; color: var(--white); display: flex; align-items: center; gap: 8px; }
+        .logo span { color: var(--accent); }
+        .nav-links { display: flex; gap: 32px; }
+        .nav-links a { color: #cbd5e1; font-weight: 500; transition: var(--transition); }
+        .nav-links a:hover, .nav-links a.active { color: var(--white); }
+        
+        .lang-switch { background: rgba(255,255,255,0.1); color: var(--white); border: 1px solid rgba(255,255,255,0.2); padding: 8px 12px; border-radius: 4px; cursor: pointer; font-weight: 600; }
+        
+        .hamburger { display: none; cursor: pointer; color: var(--white); font-size: 1.8rem; }
+        
+        /* Mobile Nav */
+        .mobile-nav-overlay {
+            position: fixed; top: 0; right: -100%; width: 100%; height: 100vh;
+            background-color: var(--primary); display: flex; flex-direction: column;
+            justify-content: center; align-items: center; gap: 30px;
+            transition: 0.4s ease-in-out; z-index: 999;
+        }
+        .mobile-nav-overlay.active { right: 0; }
+        .mobile-nav-overlay a { font-size: 1.5rem; color: var(--white); font-weight: 600; }
+
+        /* GALLERY STYLES */
+        .page-header { background-color: var(--primary); padding: 140px 0 60px; text-align: center; color: var(--white); }
+        .page-header h1 { font-size: 3rem; margin-bottom: 16px; }
+        .page-header p { color: #cbd5e1; max-width: 600px; margin: 0 auto; font-size: 1.1rem; }
+        
+        .gallery-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px; padding: 80px 0;
+        }
+        .gallery-item {
+            border-radius: 8px; overflow: hidden; height: 300px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            position: relative; cursor: pointer; transition: var(--transition);
+        }
+        .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+        .gallery-item:hover { transform: translateY(-5px); box-shadow: 0 10px 15px rgba(0,0,0,0.1); }
+        .gallery-item:hover img { transform: scale(1.08); }
+
+        /* LIGHTBOX */
+        .lightbox {
+            display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%;
+            background-color: rgba(0, 0, 0, 0.95); justify-content: center; align-items: center;
+            opacity: 0; transition: opacity 0.3s ease;
+        }
+        .lightbox.show { opacity: 1; }
+        
+        .lightbox-content { 
+            max-width: 90%; max-height: 85vh; border-radius: 4px; 
+            box-shadow: 0 0 20px rgba(0,0,0,0.5); 
+            opacity: 0; transition: opacity 0.3s ease-in-out; /* Smooth transition for image swap */
+        }
+        .lightbox-content.visible { opacity: 1; }
+
+        .close-btn { position: absolute; top: 20px; right: 30px; color: #fff; font-size: 50px; cursor: pointer; z-index: 2001; }
+        .prev, .next { cursor: pointer; position: absolute; top: 50%; color: white; font-weight: bold; font-size: 40px; padding: 20px; user-select: none; transform: translateY(-50%); }
+        .next { right: 10px; } .prev { left: 10px; }
+        .prev:hover, .next:hover { color: var(--accent); }
+
+        /* FOOTER */
+        footer { background-color: #020617; color: var(--white); padding: 80px 0 30px; }
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; padding-bottom: 40px; border-bottom: 1px solid #1e293b; margin-bottom: 30px; }
+        .copyright { text-align: center; color: #64748b; font-size: 0.9rem; }
+        
+        /* New Footer Styles */
+        .contact-link { color: #94a3b8; transition: var(--transition); display: inline-block; }
+        .contact-link:hover { color: var(--accent); }
+        
+        .social-links { display: flex; gap: 15px; margin-top: 20px; }
+        .social-icon { width: 24px; height: 24px; fill: #94a3b8; transition: var(--transition); }
+        .social-icon:hover { fill: var(--white); transform: translateY(-3px); }
+
+        /* Language Transition Styles */
+        [data-i18n] {
+            transition: opacity 0.3s ease-in-out;
+            opacity: 1;
+        }
+        .fade-out {
+            opacity: 0 !important;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links, .nav-actions { display: none; }
+            .hamburger { display: block; }
+            .footer-grid { grid-template-columns: 1fr; }
+            .page-header h1 { font-size: 2.2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="mobile-nav-overlay" id="mobileNav">
+        <a href="index.html#home" class="page-link">Home</a>
+        <a href="index.html#services" class="page-link">Services</a>
+        <a href="gallery.html" class="page-link">Gallery</a>
+        <a href="index.html#contact" class="page-link">Contact</a>
+    </div>
+
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">Xheki Trans<span>.</span></div>
+                <ul class="nav-links">
+                    <li><a href="index.html#home" class="page-link">Home</a></li>
+                    <li><a href="index.html#services" class="page-link">Services</a></li>
+                    <li><a href="index.html#about" class="page-link">About Us</a></li>
+                    <li><a href="gallery.html" class="active page-link">Gallery</a></li>
+                    <li><a href="index.html#contact" class="page-link">Contact</a></li>
+                </ul>
+                <div class="nav-actions" style="display: flex; gap: 15px; align-items: center;">
+                    <button class="lang-switch" id="langBtn" onclick="toggleLanguage()">SQ</button>
+                </div>
+                <div class="hamburger" onclick="toggleMenu()">☰</div>
+            </nav>
+        </div>
+    </header>
+
+    <div class="page-header">
+        <div class="container">
+            <h1 data-i18n="gallery_title">Our Gallery</h1>
+            <p data-i18n="gallery_desc">Explore our fleet, warehouse operations, and global logistics projects in action.</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="gallery-grid">
+            <div class="gallery-item"><img src="https://i.postimg.cc/1t6Twng3/IMG-9354.jpgw=800" loading="lazy"></div>
+            <div class="gallery-item"><img src="https://i.postimg.cc/8CH4pTxh/488998881-9555567084536901-6927614059717711536-n.jpgw=800" loading="lazy"></div>
+            <div class="gallery-item"><img src="https://i.postimg.cc/ZqWCLZFF/fun6281web-1900x1268.jpgw=800" loading="lazy"></div>
+            <div class="gallery-item"><img src="https://i.postimg.cc/vZBBQMjs/fun6343web-1900x1268.jpgw=800" loading="lazy"></div>
+            <div class="gallery-item"><img src="https://i.postimg.cc/PJyXjFQw/IMG-9344.jpgw=800" loading="lazy"></div>
+            <div class="gallery-item"><img src="https://i.postimg.cc/DZKnbKCW/Untitled-Project-(5).jpgw=800" loading="lazy"></div>
+            <div class="gallery-item"><img src="https://i.postimg.cc/k5WdCpnP/fun6458web-1900x1268.jpgw=800" loading="lazy"></div>
+            <div class="gallery-item"><img src="https://i.postimg.cc/wMjKhxDy/Untitled-Project-(3).jpgw=800" loading="lazy"></div>
+            <div class="gallery-item"><img src="https://i.postimg.cc/HsGYqX0t/IMG-9357.jpgw=800" loading="lazy"></div>
+            <div class="gallery-item"><img src="https://i.postimg.cc/nhQyKP97/IMG-9342.jpgw=800w=800" loading="lazy"></div>
+             <div class="gallery-item"><img src="https://i.postimg.cc/bv1HRQRH/IMG-9348.jpgw=800" loading="lazy"></div>
+              <div class="gallery-item"><img src="https://i.postimg.cc/8zShzFGv/IMG-8284.jpgw=800" loading="lazy"></div>
+               <div class="gallery-item"><img src="https://i.postimg.cc/vZsNwHN8/IMG-0928.jpgw=800" loading="lazy"></div>
+        </div>
+    </div>
+
+    <div id="lightbox" class="lightbox">
+        <span class="close-btn" onclick="closeLightbox()">×</span>
+        <a class="prev" onclick="changeSlide(-1)">❮</a>
+        <a class="next" onclick="changeSlide(1)">❯</a>
+        <img class="lightbox-content" id="lightbox-img">
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <div class="logo">Xheki Trans<span>.</span></div>
+                    <p style="color:#94a3b8; margin-top:20px;">Global logistics partner.</p>
+                </div>
+                <div>
+                    <h4 style="color:white; margin-bottom:20px">Contact</h4>
+                    <p><a href="tel:+38344192896" class="contact-link">+383/44 192 896</a></p>
+                    
+                    <div class="social-links">
+                        <a href="https://www.facebook.com/xhekitrans/" target="_blank" aria-label="Facebook">
+                            <svg class="social-icon" viewBox="0 0 24 24">
+                                <path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm3 8h-1.35c-.538 0-.65.221-.65.778v1.222h2l-.209 2h-1.791v7h-3v-7h-2v-2h2v-2.308c0-1.769.931-2.692 3.029-2.692 1.197 0 1.968.129 1.968.129v2.192z"/>
+                            </svg>
+                        </a>
+                        <a href="https://www.instagram.com/xheki_trans/" target="_blank" aria-label="Instagram">
+                            <svg class="social-icon" viewBox="0 0 24 24">
+                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.85-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">© 2026 Xheki Trans Logistics Inc.</div>
+        </div>
+    </footer>
+
+    <script>
+        // Page Transitions Script
+        document.addEventListener('DOMContentLoaded', () => {
+            // Fade in on load
+            document.body.classList.add('loaded');
+
+            // Intercept internal links
+            const links = document.querySelectorAll('.page-link');
+            links.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    const target = this.getAttribute('href');
+                    
+                    // Only prevent default if it's a navigation to a new page (not just hash jump)
+                    if (target.includes('.html')) {
+                        e.preventDefault();
+                        document.body.classList.remove('loaded');
+                        setTimeout(() => {
+                            window.location.href = target;
+                        }, 500); // Matches CSS transition time
+                    }
+                });
+            });
+        });
+
+        function toggleMenu() { document.getElementById('mobileNav').classList.toggle('active'); }
+        
+        // Updated Lightbox Logic
+        let currentIdx = 0;
+        const images = document.querySelectorAll('.gallery-item img');
+        const lightbox = document.getElementById('lightbox');
+        const lbImg = document.getElementById('lightbox-img');
+
+        images.forEach((img, idx) => {
+            img.addEventListener('click', () => {
+                currentIdx = idx;
+                lightbox.style.display = "flex";
+                // Slight delay to allow display:flex to apply before adding opacity class
+                setTimeout(() => {
+                    lightbox.classList.add('show');
+                    lbImg.src = img.src;
+                    lbImg.classList.add('visible');
+                }, 10);
+            });
+        });
+
+        function closeLightbox() { 
+            lightbox.classList.remove('show');
+            setTimeout(() => {
+                lightbox.style.display = "none"; 
+                lbImg.src = ""; // Clear src
+            }, 300);
+        }
+
+        function changeSlide(dir) {
+            // Fade out current image
+            lbImg.classList.remove('visible');
+
+            setTimeout(() => {
+                currentIdx += dir;
+                if (currentIdx >= images.length) currentIdx = 0;
+                if (currentIdx < 0) currentIdx = images.length - 1;
+                
+                lbImg.src = images[currentIdx].src;
+                
+                // Fade in new image
+                lbImg.classList.add('visible');
+            }, 300); // Wait for fade out
+        }
+
+        // Language Logic (Smoother Transition)
+        let lang = 'en';
+        const translations = {
+            en: { gallery_title: "Our Gallery", gallery_desc: "Explore our fleet and operations." },
+            sq: { gallery_title: "Galeria Jonë", gallery_desc: "Eksploroni flotën dhe operacionet tona." }
+        };
+
+        function toggleLanguage() {
+            // Select elements to animate
+            const elements = document.querySelectorAll('[data-i18n]');
+            
+            // Add fade-out class
+            elements.forEach(el => el.classList.add('fade-out'));
+
+            // Wait for fade out, then swap text and fade back in
+            setTimeout(() => {
+                lang = lang === 'en' ? 'sq' : 'en';
+                document.getElementById('langBtn').innerText = lang === 'en' ? 'SQ' : 'EN';
+                
+                document.querySelector('[data-i18n="gallery_title"]').innerText = translations[lang].gallery_title;
+                document.querySelector('[data-i18n="gallery_desc"]').innerText = translations[lang].gallery_desc;
+
+                // Remove fade-out class to trigger fade-in
+                elements.forEach(el => el.classList.remove('fade-out'));
+            }, 300); // 300ms matches the CSS transition time
+        }
+    </script>
+</body>
+</html>

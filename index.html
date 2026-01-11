@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Xheki Trans Logistics - Global supply chain solutions, freight forwarding, and logistics services. Reliable, fast, and secure transport worldwide.">
+    <title>Xheki Trans Logistics | Global Supply Chain Solutions</title>
+    <link rel="icon" href="https://i.postimg.cc/gJsgpvQt/download.png" type="image/x-icon">
+    <style>
+        /* --- THEME & RESET --- */
+        :root {
+            --primary: #0b1120;
+            --primary-light: #1e3a8a;
+            --accent: #3b82f6;
+            --accent-hover: #2563eb;
+            --text-dark: #1e293b;
+            --text-light: #64748b;
+            --bg-light: #f8fafc;
+            --white: #ffffff;
+            --max-width: 1280px;
+            --nav-height: 80px;
+            --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
+            color: var(--text-dark); 
+            background-color: var(--white); 
+            line-height: 1.6; 
+            -webkit-font-smoothing: antialiased; 
+            overflow-x: hidden; 
+        }
+        
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+        img { max-width: 100%; display: block; height: auto; }
+        .container { max-width: var(--max-width); margin: 0 auto; padding: 0 24px; }
+
+        /* --- LANGUAGE TRANSITION --- */
+        [data-i18n] {
+            transition: opacity 0.3s ease-in-out;
+            opacity: 1;
+        }
+        .fade-out {
+            opacity: 0 !important;
+        }
+
+        /* --- ANIMATION UTILITIES --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-delay-1 { transition-delay: 0.1s; }
+        .reveal-delay-2 { transition-delay: 0.2s; }
+        .reveal-delay-3 { transition-delay: 0.3s; }
+
+        /* --- TRUCK LOADER / TRANSITION OVERLAY --- */
+        #page-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--primary);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.6s ease-in-out;
+            overflow: hidden;
+        }
+
+        /* The 3D Truck Container */
+        .truck-wrapper {
+            position: absolute;
+            bottom: 45%;
+            left: -300px; /* Start off screen */
+            transform-style: preserve-3d;
+            perspective: 800px;
+            z-index: 10000;
+        }
+
+        /* 3D Truck Construction */
+        .truck {
+            position: relative;
+            width: 280px;
+            height: 120px;
+            transform: rotateY(-10deg); /* Slight 3D angle */
+            transform-style: preserve-3d;
+        }
+
+        /* Trailer */
+        .truck-trailer {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 200px;
+            height: 100px;
+            background: linear-gradient(135deg, var(--primary-light), var(--primary));
+            border-radius: 4px;
+            box-shadow: -5px 5px 15px rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        /* Logo on Trailer */
+        .truck-trailer::after {
+            content: 'XHEKI';
+            color: rgba(255,255,255,0.15);
+            font-weight: 900;
+            font-size: 32px;
+            letter-spacing: 2px;
+            transform: skewX(-10deg);
+        }
+
+        /* Cab */
+        .truck-cab {
+            position: absolute;
+            right: 0;
+            bottom: 20px;
+            width: 75px;
+            height: 80px;
+            background: var(--white);
+            border-radius: 4px 12px 4px 4px;
+            box-shadow: -2px 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .truck-window {
+            position: absolute;
+            top: 10px;
+            right: 5px;
+            width: 40px;
+            height: 25px;
+            background: #333;
+            border-radius: 0 8px 0 0;
+        }
+
+        .truck-light {
+            position: absolute;
+            bottom: 10px;
+            right: -2px;
+            width: 6px;
+            height: 12px;
+            background: #f59e0b;
+            border-radius: 2px;
+            box-shadow: 0 0 10px #f59e0b;
+        }
+
+        /* Connector */
+        .truck-connector {
+            position: absolute;
+            left: 200px;
+            bottom: 30px;
+            width: 15px;
+            height: 10px;
+            background: #555;
+        }
+
+        /* Wheels */
+        .wheels {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 20px;
+        }
+
+        .wheel {
+            position: absolute;
+            bottom: -10px;
+            width: 28px;
+            height: 28px;
+            background: #111;
+            border: 3px solid #555;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+        }
+        
+        .wheel-inner {
+            position: absolute;
+            top: 50%; left: 50%;
+            width: 6px; height: 6px;
+            background: #888;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        .wheel-spoke {
+            position: absolute;
+            top: 50%; left: 50%;
+            width: 100%; height: 2px;
+            background: #444;
+            transform: translate(-50%, -50%);
+        }
+
+        .w1 { left: 20px; }
+        .w2 { left: 55px; }
+        .w3 { right: 15px; }
+
+        /* Road Effect */
+        .road-line {
+            position: absolute;
+            bottom: 44%;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: rgba(255,255,255,0.1);
+        }
+
+        @keyframes spin {
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes driveAcross {
+            0% { left: -300px; transform: scale(0.8) rotateY(-5deg); }
+            40% { transform: scale(1) rotateY(-5deg); }
+            60% { transform: scale(1) rotateY(-5deg); }
+            100% { left: 110%; transform: scale(0.8) rotateY(-5deg); }
+        }
+
+        /* Class to trigger animation */
+        .animating-truck {
+            animation: driveAcross 2.5s cubic-bezier(0.4, 0.0, 0.2, 1) forwards;
+        }
+
+        /* --- BUTTONS --- */
+        .btn { display: inline-flex; align-items: center; justify-content: center; padding: 12px 32px; font-weight: 600; font-size: 1rem; border-radius: 6px; transition: var(--transition); cursor: pointer; border: none; letter-spacing: 0.025em; position: relative; overflow: hidden; }
+        
+        .btn-white { background-color: var(--white); color: var(--primary); border: 2px solid #e2e8f0; }
+        .btn-white:hover { border-color: var(--primary); color: var(--primary); transform: translateY(-2px); box-shadow: var(--shadow); }
+        
+        .btn-primary { background-color: var(--primary-light); color: var(--white); box-shadow: 0 4px 6px rgba(30, 58, 138, 0.2); }
+        .btn-primary:hover { background-color: var(--accent); transform: translateY(-3px); box-shadow: 0 10px 15px rgba(30, 58, 138, 0.3); }
+
+        /* --- HEADER & NAV --- */
+        header { position: fixed; width: 100%; top: 0; z-index: 1000; transition: var(--transition); background-color: var(--primary); }
+        header.scrolled { background-color: rgba(11, 17, 32, 0.95); backdrop-filter: blur(10px); box-shadow: 0 4px 20px rgba(0,0,0,0.1); padding-top: 0; padding-bottom: 0; }
+        
+        nav { display: flex; justify-content: space-between; align-items: center; height: var(--nav-height); transition: height 0.3s; }
+        header.scrolled nav { height: 70px; }
+
+        .logo { font-size: 1.5rem; font-weight: 800; color: var(--white); display: flex; align-items: center; gap: 8px; letter-spacing: -0.025em; }
+        .logo span { color: var(--accent); }
+        
+        .nav-menu { display: flex; align-items: center; gap: 40px; }
+        .nav-links { display: flex; gap: 32px; }
+        .nav-links a { font-weight: 500; font-size: 0.95rem; color: #cbd5e1; transition: var(--transition); position: relative; }
+        .nav-links a:hover { color: var(--white); }
+        .nav-links a::after { content: ''; position: absolute; width: 0; height: 2px; bottom: -4px; left: 0; background-color: var(--accent); transition: var(--transition); }
+        .nav-links a:hover::after { width: 100%; }
+
+        .nav-actions { display: flex; align-items: center; gap: 16px; }
+        
+        .lang-switch { background: rgba(255,255,255,0.1); color: var(--white); border: 1px solid rgba(255,255,255,0.2); padding: 8px 14px; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 0.85rem; transition: var(--transition); }
+        .lang-switch:hover { background: rgba(255,255,255,0.2); border-color: var(--white); transform: scale(1.05); }
+
+        /* MOBILE MENU */
+        .hamburger { display: none; cursor: pointer; color: var(--white); font-size: 1.8rem; z-index: 1001; transition: transform 0.3s; }
+        .hamburger:hover { transform: scale(1.1); }
+        .mobile-lang-switch { display: none; margin-right: 16px; height: 40px; } 
+
+        .mobile-nav-overlay {
+            position: fixed; top: 0; right: -100%; width: 100%; height: 100vh;
+            background-color: var(--primary); display: flex; flex-direction: column;
+            justify-content: center; align-items: center; gap: 30px;
+            transition: 0.4s cubic-bezier(0.77, 0, 0.175, 1); z-index: 1000;
+        }
+        .mobile-nav-overlay.active { right: 0; }
+        .mobile-nav-overlay a { font-size: 1.5rem; color: var(--white); font-weight: 600; transition: color 0.3s; }
+        .mobile-nav-overlay a:hover { color: var(--accent); }
+
+        /* --- HERO --- */
+        .hero {
+            height: 100vh; min-height: 600px; margin-top: 0;
+            background: linear-gradient(135deg, rgba(11, 17, 32, 0.85) 0%, rgba(11, 17, 32, 0.6) 100%),
+                        url('https://i.postimg.cc/vZBBQMjs/fun6343web-1900x1268.jpgw=2070&q=80');
+            background-size: cover; background-position: center; background-attachment: fixed;
+            display: flex; align-items: center; justify-content: center; text-align: center; color: var(--white);
+            padding-top: var(--nav-height);
+        }
+        .hero-content { max-width: 900px; padding: 0 20px; animation: fadeInUp 1s ease-out; }
+        .hero h1 { font-size: clamp(2.5rem, 5vw, 4.5rem); line-height: 1.1; font-weight: 800; margin-bottom: 24px; letter-spacing: -0.02em; }
+        .hero p { font-size: clamp(1.1rem, 2vw, 1.35rem); margin-bottom: 40px; color: #e2e8f0; max-width: 700px; margin-left: auto; margin-right: auto; }
+
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* --- SECTIONS --- */
+        .section-padding { padding: 100px 0; }
+        .section-header { text-align: center; margin-bottom: 70px; }
+        .section-header h2 { font-size: 2.5rem; color: var(--primary); margin-bottom: 16px; font-weight: 800; }
+        .section-header p { color: var(--text-light); max-width: 600px; margin: 0 auto; font-size: 1.1rem; }
+        
+        /* Stats */
+        .stats-bar { background-color: var(--primary-light); color: var(--white); padding: 50px 0; margin-top: -80px; position: relative; z-index: 10; border-radius: 8px; box-shadow: var(--shadow-lg); }
+        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; text-align: center; }
+        
+        .stat-link { color: inherit; text-decoration: none; display: block; transition: transform 0.2s; }
+        .stat-link:hover { transform: scale(1.1); text-shadow: 0 0 10px rgba(255,255,255,0.5); }
+        
+        .stat-item h3 { font-size: 2.5rem; font-weight: 800; margin-bottom: 5px; }
+        .stat-item p { font-size: 0.95rem; opacity: 0.9; font-weight: 500; }
+
+        /* Services */
+        .services { background-color: var(--bg-light); }
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 32px; }
+        
+        .service-card { 
+            background: var(--white); 
+            padding: 48px 32px; 
+            border-radius: 12px; 
+            transition: var(--transition); 
+            box-shadow: var(--shadow); 
+            border: 1px solid #e2e8f0; 
+            position: relative;
+            top: 0;
+        }
+        
+        .service-card:hover { 
+            transform: translateY(-10px); 
+            box-shadow: var(--shadow-xl); 
+            border-color: var(--primary-light); 
+        }
+        
+        .icon-box { 
+            width: 70px; 
+            height: 70px; 
+            background-color: #eff6ff; 
+            border-radius: 16px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            margin-bottom: 24px; 
+            color: var(--accent); 
+            transition: var(--transition);
+        }
+        
+        .service-card:hover .icon-box {
+            background-color: var(--accent);
+            color: var(--white);
+            transform: rotateY(360deg);
+        }
+
+        .service-card h3 { font-size: 1.5rem; margin-bottom: 16px; color: var(--primary); }
+        .service-card p { color: var(--text-light); margin-bottom: 24px; font-size: 1.05rem; }
+        .learn-more { color: var(--accent); font-weight: 600; display: inline-flex; align-items: center; gap: 6px; transition: gap 0.3s; }
+        .learn-more:hover { gap: 12px; }
+
+        /* About */
+        .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+        .about-image { position: relative; }
+        .about-image img { border-radius: 12px; box-shadow: var(--shadow-lg); width: 100%; transition: transform 0.5s; }
+        .about-image:hover img { transform: scale(1.02); }
+        .about-image::before { content: ''; position: absolute; width: 100%; height: 100%; border: 4px solid var(--accent); top: 20px; left: -20px; z-index: -1; border-radius: 12px; transition: var(--transition); }
+        .about-image:hover::before { top: 10px; left: -10px; }
+        
+        .about-content h4 { color: var(--accent); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; font-size: 0.9rem; margin-bottom: 12px; }
+        .checklist li { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; font-weight: 500; font-size: 1.05rem; }
+        .check-icon { color: var(--accent); background: #eff6ff; padding: 4px; border-radius: 50%; font-size: 0.8rem; }
+
+        /* --- GALLERY PREVIEW SECTION --- */
+        .gallery-preview { background-color: var(--bg-light); }
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+        .gallery-item {
+            position: relative;
+            height: 250px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+        }
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .gallery-item:hover img {
+            transform: scale(1.15);
+        }
+        .gallery-overlay {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            padding: 20px;
+            color: white;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .gallery-item:hover .gallery-overlay { opacity: 1; }
+
+        /* --- LIGHTBOX --- */
+        .lightbox {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            padding-top: 50px;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.95);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lightbox-content {
+            margin: auto;
+            display: block;
+            width: 80%;
+            max-width: 1000px;
+            max-height: 80vh;
+            object-fit: contain;
+            border-radius: 4px;
+            box-shadow: 0 0 20px rgba(255,255,255,0.1);
+            opacity: 1;
+            transition: opacity 0.3s ease;
+        }
+
+        .close-lightbox {
+            position: absolute;
+            top: 25px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+            cursor: pointer;
+            z-index: 2001;
+        }
+
+        .close-lightbox:hover,
+        .close-lightbox:focus {
+            color: var(--accent);
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .lightbox-nav {
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            width: auto;
+            padding: 16px;
+            margin-top: -50px;
+            color: white;
+            font-weight: bold;
+            font-size: 24px;
+            transition: 0.3s ease;
+            border-radius: 0 3px 3px 0;
+            user-select: none;
+            background-color: rgba(0,0,0,0.3);
+        }
+
+        .lightbox-prev { left: 20px; border-radius: 3px 0 0 3px; }
+        .lightbox-next { right: 20px; border-radius: 3px 0 0 3px; }
+        .lightbox-nav:hover { background-color: var(--accent); }
+
+        /* Contact & Map */
+        .contact-section { background-color: var(--primary); color: var(--white); padding: 100px 0; text-align: center; }
+        .contact-details { display: flex; justify-content: center; gap: 40px; margin-bottom: 50px; flex-wrap: wrap; }
+        .contact-item { background: rgba(255,255,255,0.05); padding: 20px 40px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); transition: var(--transition); }
+        .contact-item:hover { background: rgba(255,255,255,0.1); transform: translateY(-5px); }
+
+        /* Social Icons */
+        .social-icons-container { margin-top: 30px; display: flex; justify-content: center; gap: 20px; }
+        .social-icon { 
+            width: 48px; height: 48px; 
+            border: 1px solid rgba(255,255,255,0.2); 
+            border-radius: 50%; 
+            display: flex; align-items: center; justify-content: center; 
+            color: var(--white); 
+            transition: var(--transition);
+        }
+        .social-icon:hover { background: var(--accent); border-color: var(--accent); transform: scale(1.1); }
+        
+        .map-responsive { width: 100%; max-width: 1000px; height: 450px; margin: 0 auto; border-radius: 12px; overflow: hidden; box-shadow: var(--shadow-lg); }
+        .map-responsive iframe { width: 100%; height: 100%; border: 0; }
+
+        /* Footer */
+        footer { background-color: #020617; color: var(--white); padding: 80px 0 30px; font-size: 0.95rem; border-top: 1px solid #1e293b; }
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 60px; margin-bottom: 60px; }
+        .footer-info p { color: #94a3b8; margin-top: 24px; max-width: 320px; line-height: 1.7; }
+        .footer-col h4 { color: var(--white); margin-bottom: 24px; font-size: 1.1rem; font-weight: 700; }
+        .footer-col ul li { margin-bottom: 12px; }
+        .footer-col ul li a { color: #94a3b8; transition: var(--transition); }
+        .footer-col ul li a:hover { color: var(--white); padding-left: 6px; color: var(--accent); }
+        .copyright { text-align: center; color: #475569; padding-top: 30px; border-top: 1px solid #1e293b; font-size: 0.9rem; }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 1024px) {
+            .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 30px; }
+            .about-grid { grid-template-columns: 1fr; gap: 50px; }
+            .about-image::before { display: none; }
+        }
+
+        @media (max-width: 768px) {
+            .nav-menu, .nav-actions { display: none; }
+            .hamburger { display: block; }
+            .mobile-lang-switch { display: block; }
+            
+            .hero { background-attachment: scroll; }
+            .stats-bar { margin-top: 0; border-radius: 0; }
+            .footer-grid { grid-template-columns: 1fr; gap: 40px; }
+            .map-responsive { height: 350px; }
+            .section-header h2 { font-size: 2rem; }
+            .lightbox-content { width: 95%; }
+            
+            .truck { transform: scale(0.8) rotateY(-10deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="page-loader">
+        <div class="road-line"></div>
+        <div class="truck-wrapper" id="truck">
+            <div class="truck">
+                <div class="truck-trailer"></div>
+                <div class="truck-connector"></div>
+                <div class="truck-cab">
+                    <div class="truck-window"></div>
+                    <div class="truck-light"></div>
+                </div>
+                <div class="wheels">
+                    <div class="wheel w1"><div class="wheel-spoke"></div><div class="wheel-inner"></div></div>
+                    <div class="wheel w2"><div class="wheel-spoke"></div><div class="wheel-inner"></div></div>
+                    <div class="wheel w3"><div class="wheel-spoke"></div><div class="wheel-inner"></div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mobile-nav-overlay" id="mobileNav">
+        <a href="#home" onclick="toggleMenu()">Home</a>
+        <a href="#services" onclick="toggleMenu()">Services</a>
+        <a href="#about" onclick="toggleMenu()">About Us</a>
+        <a href="gallery.html" class="page-transition-link" onclick="toggleMenu()">Gallery</a>
+        <a href="#contact" onclick="toggleMenu()">Contact</a>
+        </div>
+
+    <header id="header">
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="1" y="3" width="15" height="13"></rect>
+                        <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+                        <circle cx="5.5" cy="18.5" r="2.5"></circle>
+                        <circle cx="18.5" cy="18.5" r="2.5"></circle>
+                    </svg>
+                    Xheki Trans<span>.</span>
+                </div>
+                
+                <div class="nav-menu">
+                    <ul class="nav-links">
+                        <li><a href="#home" data-i18n="nav_home">Home</a></li>
+                        <li><a href="#services" data-i18n="nav_services">Services</a></li>
+                        <li><a href="#about" data-i18n="nav_about">About Us</a></li>
+                        <li><a href="gallery.html" class="page-transition-link" data-i18n="nav_gallery">Gallery</a></li>
+                        <li><a href="#contact" data-i18n="nav_contact">Contact</a></li>
+                    </ul>
+                </div>
+
+                <div class="nav-actions">
+                    <button class="lang-switch lang-btn-target" onclick="toggleLanguage()">SQ</button>
+                    <a href="#contact" class="btn btn-white" data-i18n="nav_quote">Get a Quote</a>
+                </div>
+
+                <div style="display: flex; align-items: center;">
+                    <button class="lang-switch mobile-lang-switch lang-btn-target" onclick="toggleLanguage()">SQ</button>
+                    
+                    <div class="hamburger" onclick="toggleMenu()">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1 data-i18n="hero_title">Seamless Logistics for a Connected World</h1>
+            <p data-i18n="hero_subtitle">We deliver innovative supply chain solutions that drive your business forward. Reliable, fast, and global.</p>
+            <a href="#contact" class="btn btn-primary" style="padding: 16px 40px; font-size: 1.1rem;" data-i18n="btn_contact">Contact Us</a>
+        </div>
+    </section>
+
+    <div class="container">
+        <div class="stats-bar reveal">
+            <div class="container stats-grid">
+                <div class="stat-item">
+                    <a href="tel:+38344192896" class="stat-link">
+                        <h3 data-target="25" data-suffix="k+">0</h3>
+                        <p data-i18n="stat_shipments">Shipments Delivered</p>
+                    </a>
+                </div>
+                <div class="stat-item">
+                    <a href="tel:+38344192896" class="stat-link">
+                        <h3 data-target="150" data-suffix="+">0</h3>
+                        <p data-i18n="stat_countries">Countries Served</p>
+                    </a>
+                </div>
+                <div class="stat-item">
+                    <a href="tel:+38344192896" class="stat-link">
+                        <h3 data-target="900" data-suffix="+">0</h3>
+                        <p data-i18n="stat_clients">Corporate Clients</p>
+                    </a>
+                </div>
+                <div class="stat-item">
+                    <a href="tel:+38344192896" class="stat-link">
+                        <h3 data-target="24" data-suffix="/7">0</h3>
+                        <p data-i18n="stat_support">Support Available</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="section-padding services" id="services">
+        <div class="container">
+            <div class="section-header reveal">
+                <h2 data-i18n="services_title">Our Expertise</h2>
+                <p data-i18n="services_subtitle">From complex global freight forwarding to simple domestic delivery, we have the infrastructure to handle it all.</p>
+            </div>
+            <div class="services-grid">
+                
+                <div class="service-card reveal reveal-delay-1">
+                    <div class="icon-box">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="1" y="3" width="15" height="13"></rect>
+                            <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+                            <circle cx="5.5" cy="18.5" r="2.5"></circle>
+                            <circle cx="18.5" cy="18.5" r="2.5"></circle>
+                        </svg>
+                    </div>
+                    <h3 data-i18n="service_fleet_title">Modern Fleet</h3>
+                    <p data-i18n="service_fleet_desc">Our modern fleet is built to meet the highest standards of safety, efficiency, and reliability. Equipped with advanced GPS tracking.</p>
+                </div>
+
+                <div class="service-card reveal reveal-delay-2">
+                    <div class="icon-box">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M1 3h15v13H1z"></path>
+                            <path d="M16 8h4l3 3v5h-7V8z"></path>
+                            <circle cx="5.5" cy="18.5" r="2.5"></circle>
+                            <circle cx="18.5" cy="18.5" r="2.5"></circle>
+                            <path d="M2 10h-2"></path>
+                            <path d="M4 6h-4"></path>
+                            <path d="M2 14h-2"></path>
+                        </svg>
+                    </div>
+                    <h3 data-i18n="service_fast_title">Fast Transport</h3>
+                    <p data-i18n="service_fast_desc">We specialize in fast, efficient transport solutions. From city-to-city deliveries to long-haul shipments, we ensure your goods arrive on time.</p>
+                </div>
+
+                <div class="service-card reveal reveal-delay-3">
+                    <div class="icon-box">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon>
+                            <line x1="8" y1="2" x2="8" y2="18"></line>
+                            <line x1="16" y1="6" x2="16" y2="22"></line>
+                        </svg>
+                    </div>
+                    <h3 data-i18n="service_road_title">Road Transport</h3>
+                    <p data-i18n="service_road_desc">Reliable ground transportation network across continents. Full truckload and less-than-truckload options available.</p>
+                    <a href="gallery.html" class="learn-more page-transition-link"><span data-i18n="btn_learn_more">View Fleet</span> →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-padding" id="about">
+        <div class="container">
+            <div class="about-grid">
+                <div class="about-image reveal">
+                    <img src="https://i.postimg.cc/8CH4pTxh/488998881-9555567084536901-6927614059717711536-n.jpgw=1000&q=80" alt="Warehouse Operations" loading="lazy">
+                </div>
+                <div class="about-content reveal reveal-delay-1">
+                    <h4 data-i18n="about_label">Why Choose Xheki Trans</h4>
+                    <h2 data-i18n="about_title">Global Logistics Solutions</h2>
+                    <p data-i18n="about_desc">In today's fast-paced economy, you need a partner who understands the complexities of the supply chain. We combine technology with human expertise to deliver results.</p>
+                    <ul class="checklist">
+                        <li><span class="check-icon">✓</span> <span data-i18n="check_tracking">Real-time Tracking API</span></li>
+                        <li><span class="check-icon">✓</span> <span data-i18n="check_pricing">Transparent Pricing</span></li>
+                        <li><span class="check-icon">✓</span> <span data-i18n="check_ontime">99.9% On-Time Rate</span></li>
+                        <li><span class="check-icon">✓</span> <span data-i18n="check_customs">Customs Clearance Support</span></li>
+                    </ul>
+                    <br>
+                    <a href="#contact" class="btn btn-primary" data-i18n="btn_touch">Get in Touch</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-padding gallery-preview">
+        <div class="container">
+            <div class="section-header reveal">
+                <h2 data-i18n="gallery_preview_title">Our Fleet in Action</h2>
+                <p data-i18n="gallery_preview_subtitle">Explore our vehicles, warehouses, and logistics operations.</p>
+            </div>
+            
+            <div class="gallery-grid">
+                <div class="gallery-item reveal reveal-delay-1" onclick="openLightbox();currentSlide(1)">
+                    <img src="https://i.postimg.cc/vZBBQMjs/fun6343web-1900x1268.jpgw=800w=800&q=80" alt="Truck on road" loading="lazy">
+                    <div class="gallery-overlay">
+                        <h3>Heavy Transport</h3>
+                    </div>
+                </div>
+                <div class="gallery-item reveal reveal-delay-2" onclick="openLightbox();currentSlide(2)">
+                    <img src="https://i.postimg.cc/nhQyKP97/IMG-9342.jpgw=800w=800&q=80" alt="Fleet" loading="lazy">
+                    <div class="gallery-overlay">
+                        <h3>Fleet</h3>
+                    </div>
+                </div>
+                <div class="gallery-item reveal reveal-delay-1" onclick="openLightbox();currentSlide(3)">
+                    <img src="https://i.postimg.cc/bv1HRQRH/IMG-9348.jpgw=800&q=80" alt="Frigo Transport" loading="lazy">
+                    <div class="gallery-overlay">
+                        <h3>Frigo Transport</h3>
+                    </div>
+                </div>
+                <div class="gallery-item reveal reveal-delay-2" onclick="openLightbox();currentSlide(4)">
+                    <img src="https://images.unsplash.com/photo-1565891741441-64926e441838?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Logistics worker" loading="lazy">
+                    <div class="gallery-overlay">
+                        <h3>Expert Team</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div style="text-align: center;" class="reveal">
+                <a href="gallery.html" class="btn btn-white page-transition-link" data-i18n="btn_full_gallery">View Full Gallery</a>
+            </div>
+        </div>
+    </section>
+
+    <div id="lightbox" class="lightbox">
+        <span class="close-lightbox" onclick="closeLightbox()">×</span>
+        <a class="lightbox-nav lightbox-prev" onclick="changeSlide(-1)">❮</a>
+        <img class="lightbox-content" id="lightbox-img">
+        <a class="lightbox-nav lightbox-next" onclick="changeSlide(1)">❯</a>
+    </div>
+
+    <section class="contact-section" id="contact">
+        <div class="container reveal">
+            <h2 data-i18n="contact_title">Contact Us</h2>
+            <p data-i18n="contact_desc" style="margin-bottom: 40px;">Ready to move your cargo? Contact us below.</p>
+            
+            <div class="contact-details">
+                <div class="contact-item"><h3>+383/44 192 896</h3></div>
+                <div class="contact-item"><h3>+383/44 116 240</h3></div>
+                <div class="contact-item"><h3>xhekitrans@gmail.com</h3></div>
+            </div>
+
+            <div class="social-icons-container">
+                <a href="https://www.facebook.com/xhekitrans/" target="_blank" class="social-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+                </a>
+                <a href="https://www.instagram.com/xheki_trans/" target="_blank" class="social-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                </a>
+            </div>
+            <br>
+
+            <div class="map-responsive">
+                <iframe src="https://maps.google.com/maps?q=42.24333837921596,21.24264832634164&t=&z=15&ie=UTF8&iwloc=&output=embed" width="600" height="450" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-info">
+                    <div class="logo">Xheki Trans<span>.</span></div>
+                    <p data-i18n="footer_desc">Delivering excellence across borders. We are your trusted partner in global logistics and supply chain management.</p>
+                </div>
+                <div class="footer-col">
+                    <h4 data-i18n="footer_company">Company</h4>
+                    <ul>
+                        <li><a href="#about" data-i18n="nav_about">About Us</a></li>
+                        <li><a href="#" data-i18n="footer_team">Our Team</a></li>
+                        <li><a href="#" data-i18n="footer_careers">Careers</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4 data-i18n="nav_services">Services</h4>
+                    <ul>
+                        <li><a href="#" data-i18n="service_fast_title">Fast Transport</a></li>
+                        <li><a href="#" data-i18n="service_fleet_title">Modern Fleet</a></li>
+                        <li><a href="#" data-i18n="footer_warehousing">Warehousing</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4 data-i18n="nav_contact">Contact</h4>
+                    <ul>
+                        <li>+383/44 192 896</li>
+                        <li>+383/44 116 240</li>
+                        <li>xhekitrans@gmail.com</li>
+                        <li>Kacanik , Kosovo</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright" data-i18n="copyright">© 2026 Xheki Trans Logistics Inc. All rights reserved.</div>
+        </div>
+    </footer>
+
+    <script>
+        // --- PAGE LOAD & TRUCK ANIMATION ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const truck = document.getElementById('truck');
+            const loader = document.getElementById('page-loader');
+            
+            // Start the drive-in animation on load
+            truck.classList.add('animating-truck');
+            
+            // Hide the overlay after animation completes its initial pass
+            setTimeout(() => {
+                loader.style.opacity = '0';
+                loader.style.pointerEvents = 'none'; // allow clicking through
+            }, 1800); // Wait for truck to pass middle screen
+        });
+
+        // --- SMOOTH PAGE TRANSITION WITH TRUCK ---
+        const transitionLinks = document.querySelectorAll('.page-transition-link');
+        transitionLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const target = link.href;
+                const loader = document.getElementById('page-loader');
+                const truck = document.getElementById('truck');
+
+                // Reset truck position for new animation
+                truck.classList.remove('animating-truck');
+                void truck.offsetWidth; // Trigger reflow to restart animation
+                
+                // Show overlay immediately
+                loader.style.opacity = '1';
+                loader.style.pointerEvents = 'all';
+
+                // Start driving animation
+                truck.classList.add('animating-truck');
+
+                // Navigate after the truck has covered the screen
+                setTimeout(() => {
+                    window.location.href = target;
+                }, 1500); 
+            });
+        });
+
+        // --- LIGHTBOX LOGIC ---
+        let slideIndex = 0;
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        // Get all images from gallery-grid
+        const images = document.querySelectorAll('.gallery-grid .gallery-item img');
+
+        function openLightbox() {
+            lightbox.style.display = "flex";
+            document.body.style.overflow = "hidden"; // Prevent scrolling
+        }
+
+        function closeLightbox() {
+            lightbox.style.display = "none";
+            document.body.style.overflow = "auto";
+        }
+
+        function currentSlide(n) {
+            slideIndex = n - 1; // 0-based index
+            showSlide(slideIndex);
+        }
+
+        function changeSlide(n) {
+            slideIndex += n;
+            if (slideIndex >= images.length) { slideIndex = 0; }
+            if (slideIndex < 0) { slideIndex = images.length - 1; }
+            showSlide(slideIndex);
+        }
+
+        function showSlide(index) {
+            // Fade out slightly
+            lightboxImg.style.opacity = 0;
+            
+            setTimeout(() => {
+                lightboxImg.src = images[index].src;
+                // Fade in
+                lightboxImg.style.opacity = 1;
+            }, 200);
+        }
+
+        // Close lightbox on clicking outside image
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) {
+                closeLightbox();
+            }
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (lightbox.style.display === "flex") {
+                if (e.key === "Escape") closeLightbox();
+                if (e.key === "ArrowLeft") changeSlide(-1);
+                if (e.key === "ArrowRight") changeSlide(1);
+            }
+        });
+
+        // --- MOBILE MENU TOGGLE ---
+        function toggleMenu() {
+            const nav = document.getElementById('mobileNav');
+            nav.classList.toggle('active');
+        }
+
+        // --- STICKY HEADER EFFECT ---
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // --- SCROLL REVEAL ANIMATION ---
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 150;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+        // Trigger once on load
+        reveal();
+
+        // --- LANGUAGE LOGIC WITH SMOOTH TRANSITION ---
+        const translations = {
+            en: {
+                nav_home: "Home", nav_services: "Services", nav_about: "About Us", nav_gallery: "Gallery", nav_contact: "Contact", nav_quote: "Get a Quote",
+                hero_title: "Seamless Logistics for a Connected World", hero_subtitle: "We deliver innovative supply chain solutions that drive your business forward. Reliable, fast, and global.", btn_contact: "Contact Us",
+                stat_shipments: "Shipments Delivered", stat_countries: "Countries Served", stat_clients: "Corporate Clients", stat_support: "Support Available",
+                services_title: "Our Expertise", services_subtitle: "From complex global freight forwarding to simple domestic delivery, we have the infrastructure to handle it all.",
+                service_fleet_title: "Modern Fleet", service_fleet_desc: "Our modern fleet is built to meet the highest standards of safety, efficiency, and reliability. Equipped with advanced GPS tracking.",
+                service_fast_title: "Fast Transport", service_fast_desc: "We specialize in fast, efficient transport solutions. From city-to-city deliveries to long-haul shipments.",
+                service_road_title: "Road Transport", service_road_desc: "Reliable ground transportation network across continents.", btn_learn_more: "View Fleet",
+                about_label: "Why Choose Xheki Trans", about_title: "Global Logistics Solutions", about_desc: "In today's fast-paced economy, you need a partner who understands the complexities of the supply chain.",
+                check_tracking: "Real-time Tracking", check_pricing: "Transparent Pricing", check_ontime: "99.9% On-Time Rate", check_customs: "Customs Clearance",
+                btn_touch: "Get in Touch", contact_title: "Contact Us", contact_desc: "Ready to move your cargo? Contact us below.",
+                gallery_preview_title: "Our Fleet in Action", gallery_preview_subtitle: "Explore our vehicles, warehouses, and logistics operations.", btn_full_gallery: "View Full Gallery",
+                footer_desc: "Delivering excellence across borders. We are your trusted partner in global logistics.", footer_company: "Company", footer_team: "Our Team", footer_careers: "Careers", footer_warehousing: "Warehousing", copyright: "© 2026 Xheki Trans Logistics Inc. All rights reserved."
+            },
+            sq: {
+                nav_home: "Kryefaqja", nav_services: "Shërbimet", nav_about: "Rreth Nesh", nav_gallery: "Galeria", nav_contact: "Kontakt", nav_quote: "Merr Ofertë",
+                hero_title: "Logjistikë pa probleme për një botë të lidhur", hero_subtitle: "Ne ofrojmë zgjidhje inovative për zinxhirin e furnizimit. Të besueshëm, të shpejtë dhe globalë.", btn_contact: "Na Kontaktoni",
+                stat_shipments: "Dërgesa të Dorëzuara", stat_countries: "Shtete të Shërbyera", stat_clients: "Klientë Korporativë", stat_support: "Mbështetje 24/7",
+                services_title: "Ekspertiza Jonë", services_subtitle: "Nga transporti kompleks global i mallrave deri tek dërgesat e thjeshta vendase.",
+                service_fleet_title: "Flotë Moderne", service_fleet_desc: "Flota jonë moderne është ndërtuar për të përmbushur standardet më të larta të sigurisë dhe efikasitetit.",
+                service_fast_title: "Transport i Shpejtë", service_fast_desc: "Ne jemi të specializuar në zgjidhje transporti të shpejta dhe efikase.",
+                service_road_title: "Transport Rrugor", service_road_desc: "Rrjet i besueshëm transporti tokësor nëpër kontinente.", btn_learn_more: "Shiko Flotën",
+                about_label: "Pse Xheki Trans", about_title: "Zgjidhje Logjistike Globale", about_desc: "Në ekonominë e sotme, keni nevojë për një partner që kupton kompleksitetin e zinxhirit të furnizimit.",
+                check_tracking: "Gjurmim në Kohë Reale", check_pricing: "Çmime Transparente", check_ontime: "99.9% Saktësi", check_customs: "Zhdoganim",
+                btn_touch: "Na Kontaktoni", contact_title: "Na Kontaktoni", contact_desc: "Gati për të transportuar ngarkesën tuaj?",
+                gallery_preview_title: "Flota Jonë në Veprim", gallery_preview_subtitle: "Eksploroni automjetet, magazinat dhe operacionet tona logjistike.", btn_full_gallery: "Shiko Galerinë e Plotë",
+                footer_desc: "Duke ofruar përsosmëri përtej kufijve. Partneri juaj i besuar në logjistikë.", footer_company: "Kompania", footer_team: "Ekipi Ynë", footer_careers: "Karriera", footer_warehousing: "Magazinimi", copyright: "© 2026 Xheki Trans Logistics Inc. Të gjitha të drejtat e rezervuara."
+            }
+        };
+
+        let currentLang = 'en';
+        function toggleLanguage() {
+            // Select all translatable elements
+            const elements = document.querySelectorAll('[data-i18n]');
+            
+            // 1. Add fade-out class to trigger CSS transition
+            elements.forEach(el => el.classList.add('fade-out'));
+
+            // 2. Wait for transition (300ms), then swap text
+            setTimeout(() => {
+                currentLang = currentLang === 'en' ? 'sq' : 'en';
+                const btnText = currentLang === 'en' ? 'SQ' : 'EN';
+                
+                document.querySelectorAll('.lang-btn-target').forEach(btn => {
+                    btn.innerText = btnText;
+                });
+
+                document.querySelectorAll('[data-i18n]').forEach(el => {
+                    const key = el.getAttribute('data-i18n');
+                    if (translations[currentLang][key]) el.innerText = translations[currentLang][key];
+                });
+                
+                // 3. Remove fade-out class to fade back in
+                elements.forEach(el => el.classList.remove('fade-out'));
+            }, 300); // 300ms matches the CSS transition duration
+        }
+
+        // --- COUNTER ANIMATION ---
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const counter = entry.target;
+                    const target = +counter.getAttribute('data-target');
+                    const suffix = counter.getAttribute('data-suffix');
+                    let count = 0;
+                    const inc = target / 50; 
+                    const update = () => {
+                        count += inc;
+                        if (count < target) {
+                            counter.innerText = Math.ceil(count) + suffix;
+                            requestAnimationFrame(update);
+                        } else {
+                            counter.innerText = target + suffix;
+                        }
+                    };
+                    update();
+                    observer.unobserve(counter);
+                }
+            });
+        }, { threshold: 0.5 });
+        document.querySelectorAll('.stat-item h3').forEach(c => observer.observe(c));
+    </script>
+</body>
+</html>
